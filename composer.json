@@ -1,0 +1,30 @@
+{
+  "name": "framework-factory/core",
+  "minimum-stability": "stable",
+  "license": "BSD-3-Clause",
+  "version": "1.0.0",
+  "require": {
+    "psr/container": "^2.0.2",
+    "php": "^8.5"
+  },
+  "require-dev": {
+    "pestphp/pest": "^4.1",
+    "laravel/pint": "^1.27"
+  },
+  "autoload": {
+    "psr-4": {
+      "FrameworkFactory\\": "src",
+      "Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "pint": "./vendor/bin/pint",
+    "pest": "./vendor/bin/pest"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "optimize-autoloader": true
+  }
+}
