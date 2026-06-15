@@ -4,9 +4,6 @@
 > breeze, by giving a _Laravel`esque_ construct for the beginning stages of application development. Provided is an 
 > application entrypoint interface and the logic needed to get your next project going with minimal boilerplate 
 > overhead.
->
-> - You can see a basic demonstration implementation by visiting the demo repository [here](https://github.com/FrameworkFactoryPHP/demo).
-> - All documentation is provided in the [separate `docs` repository](https://github.com/FrameworkFactoryPHP/docs).
 
 ## Features
 - **Application entrypoint:** The application entrypoint is located at `FrameworkFactory\Application`. This class assists in
@@ -25,6 +22,7 @@
 - **Fully tested codebase:** The codebase is fully tested using the [Pest PHP](https://pestphp.com/) testing framework.
   You can see all tests by going [here](https://github.com/FrameworkFactoryPHP/core/tree/main/tests).
 - **Zero Dependencies:** FrameworkFactory requires zero dependencies and relies strictly on its own internal libraries.
+- **Fully Documented:** All documentation is provided in the separate `docs` [ repository](https://github.com/FrameworkFactoryPHP/docs).
 
 ___
 ## License
