@@ -2,11 +2,11 @@
 
 namespace FrameworkFactory\Application {
 
-	use FrameworkFactory\Contracts\Container\ContainerInstance;
-	use FrameworkFactory\Attributes\Accessors\ResolvesFor;
-	use FrameworkFactory\Application\Accessor\Attribute;
+    use FrameworkFactory\Contracts\Container\ContainerInstance;
+    use FrameworkFactory\Attributes\Accessors\ResolvesFor;
+    use FrameworkFactory\Application\Getters\Attribute;
 
-	/**
+    /**
      * The Accessor class acts a facade system. It grants
      * access to services that are bound to the container
      */
