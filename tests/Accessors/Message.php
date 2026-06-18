@@ -2,9 +2,9 @@
 
 namespace Tests\Accessors {
 
-	use FrameworkFactory\Application\Accessor;
+    use FrameworkFactory\Application\Accessor;
 
-	/**
+    /**
      * @method static display(string $message): string
      */
     #[\FrameworkFactory\Attributes\Accessors\ResolvesFor('message')]
