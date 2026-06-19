@@ -2,9 +2,9 @@
 
 namespace FrameworkFactory {
 
+    use FrameworkFactory\Contracts\Container\ContainerInstance;
     use FrameworkFactory\Application\Traits\HasOptions;
     use FrameworkFactory\Application as App;
-    use FrameworkFactory\Contracts\Container\ContainerInstance;
 
     /**
      * This is the application entry point used to build and
