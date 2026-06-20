@@ -13,7 +13,10 @@ describe('cache tests', function () {
         $file = require rtrim(Tests\TestState::$cachePath, '/') . '/app.php';
         $providers = $file['providers'];
 
-        expect($providers)->toContain(Tests\Providers\MessageServiceProvider::class);
+        expect($providers)->toContain(
+	        Tests\Providers\MessageServiceProvider::class,
+	        Tests\Providers\ReportServiceProvider::class,
+        );
     });
 
     test('the cache file includes the deferred providers injected upon bootstrap', function () {
