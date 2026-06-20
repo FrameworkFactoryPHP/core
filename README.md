@@ -1,13 +1,17 @@
 # Framework Factory
 
-> Framework Factory is a PHP application starter package. The aim is to make building PHP 8 powered applications a
-> breeze, by giving a _Laravel`esque_ construct for the beginning stages of application development. Provided is an 
-> application entrypoint interface and the logic needed to get your next project going with minimal boilerplate 
-> overhead.
+> Framework Factory is a PHP application starter package. The aim is to make building PHP 8 powered applications, or frameworks, 
+> a breeze by giving a construct for the beginning stages of application development. The core principles are inspired by
+> the Laravel bootstrap architecture: wherein a developer can hook into the service container before, during and after 
+> container and dependency resolutions have occurred. 
+> 
+> Using a simple yet intuitive bootstrap process and application entrypoint interface, developers have access to the
+> logic and tools needed to get their next project going with minimal overhead. Check out the features list below for a 
+> more comprehensive look into how Framework Factory is able to help achieve this. 
 
 ## Features
 - **Application entrypoint:** The application entrypoint is located at `FrameworkFactory\Application`. This class assists in
-  managing your application by providing an elegant Boostrap API.
+  managing your application by providing an elegant boostrap and application configuration API.
 - **PSR-11 IoC Container:** The IoC container is the heart of Framework Factory. It is a robust container
   that includes many features for managing dependencies within your application, as well as giving you access to them.
     - **Container Features**:
