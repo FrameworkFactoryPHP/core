@@ -2,12 +2,12 @@
 
 namespace FrameworkFactory\Application {
 
-	use FrameworkFactory\Exceptions\Container\ContainerException;
-	use FrameworkFactory\Contracts\Container\ContainerInstance;
-	use FrameworkFactory\Attributes\Accessors\ResolvesFor;
-	use FrameworkFactory\Application\Getters\Attribute;
+    use FrameworkFactory\Exceptions\Container\ContainerException;
+    use FrameworkFactory\Contracts\Container\ContainerInstance;
+    use FrameworkFactory\Attributes\Accessors\ResolvesFor;
+    use FrameworkFactory\Application\Getters\Attribute;
 
-	/**
+    /**
      * The Accessor class acts a facade system. It grants
      * access to services that are bound to the container
      */
@@ -31,18 +31,18 @@ namespace FrameworkFactory\Application {
             static::$container = $container;
         }
 
-	    /**
-	     * Forward the static calls to the bound instance
-	     *
-	     * @param string $method
-	     * @param array  $arguments
-	     *
-	     * @return mixed
-	     */
-	    public static function __callStatic(string $method, array $arguments): mixed
-	    {
-		    return static::instance()->{$method}(...$arguments);
-	    }
+        /**
+         * Forward the static calls to the bound instance
+         *
+         * @param string $method
+         * @param array  $arguments
+         *
+         * @return mixed
+         */
+        public static function __callStatic(string $method, array $arguments): mixed
+        {
+            return static::instance()->{$method}(...$arguments);
+        }
 
         /**
          * Container bindings resolver
@@ -51,16 +51,16 @@ namespace FrameworkFactory\Application {
          */
         private static function resolver(): string
         {
-			try {
-				// if $key is an empty string (the default value), let's assign it
-				// the value of the $id property from the ResolvesFor() attribute
-				if (static::$key === '') {
-					static::$key = Attribute::get(static::class, ResolvesFor::class)->id;
-				}
-				return static::$key;
-			} catch (\Throwable) {
-				throw new ContainerException('The container could not resolve the dependency.');
-			}
+            try {
+                // if $key is an empty string (the default value), let's assign it
+                // the value of the $id property from the ResolvesFor() attribute
+                if (static::$key === '') {
+                    static::$key = Attribute::get(static::class, ResolvesFor::class)->id;
+                }
+                return static::$key;
+            } catch (\Throwable) {
+                throw new ContainerException('The container could not resolve the dependency.');
+            }
         }
 
         /**
