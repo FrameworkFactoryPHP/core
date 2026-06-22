@@ -43,7 +43,7 @@ namespace FrameworkFactory {
         /**
          * @inheritdoc
          */
-        public static function build(string $basePath): self
+        public static function build(string $basePath, string $appNamespace = 'App', string $appDirectory = 'app'): self
         {
             // assign the base and cache paths
             self::$basePath = rtrim($basePath, '/') . DIRECTORY_SEPARATOR;
@@ -51,6 +51,9 @@ namespace FrameworkFactory {
 
             // build a new container instance
             self::$container = new App\Container(self::$cachePath);
+
+            // registers a new autoloader instance
+            self::registerAutoloader($appNamespace, self::$basePath . $appDirectory);
 
             // configure the facade / accessor system
             App\Accessor::setContainer(self::$container);
@@ -113,7 +116,7 @@ namespace FrameworkFactory {
         /**
          * @inheritdoc
          */
-        public function autoloader(): AutoloaderInstance
+        public static function autoloader(): AutoloaderInstance
         {
             return self::$autoloader;
         }
