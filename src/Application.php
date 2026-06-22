@@ -2,6 +2,7 @@
 
 namespace FrameworkFactory {
 
+    use FrameworkFactory\Contracts\Application\AutoloaderInstance;
     use FrameworkFactory\Contracts\Container\ContainerInstance;
     use FrameworkFactory\Application\Traits\HasOptions;
     use FrameworkFactory\Application as App;
@@ -35,6 +36,9 @@ namespace FrameworkFactory {
 
         /** @var string $cachePath the path for the cached bootstrap file */
         private static string $cachePath;
+
+        /** @var AutoloaderInstance $autoloader autoloader instance */
+        private static AutoloaderInstance $autoloader;
 
         /**
          * @inheritdoc
@@ -104,6 +108,29 @@ namespace FrameworkFactory {
         public static function container(): ContainerInstance
         {
             return self::$container;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public function autoloader(): AutoloaderInstance
+        {
+            return self::$autoloader;
+        }
+
+        /**
+         * Registers a new autoloader instance
+         *
+         * @param string $namespace
+         * @param string $path
+         *
+         * @return void
+         */
+        private static function registerAutoloader(string $namespace, string $path): void
+        {
+            self::$autoloader = new App\Bootstrap\Autoloader();
+            self::$autoloader->register();
+            self::$autoloader->addNamespace($namespace, $path);
         }
 
         /**

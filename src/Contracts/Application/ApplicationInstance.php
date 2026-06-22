@@ -61,5 +61,12 @@ namespace FrameworkFactory\Contracts\Application {
          * @return Contracts\Container\ContainerInstance
          */
         public static function container(): Contracts\Container\ContainerInstance;
+
+        /**
+         * Returns an autoloader instance
+         *
+         * @return AutoloaderInstance
+         */
+        public function autoloader(): AutoloaderInstance;
     }
 }
