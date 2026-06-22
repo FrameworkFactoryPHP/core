@@ -67,6 +67,6 @@ namespace FrameworkFactory\Contracts\Application {
          *
          * @return AutoloaderInstance
          */
-        public function autoloader(): AutoloaderInstance;
+        public static function autoloader(): AutoloaderInstance;
     }
 }
