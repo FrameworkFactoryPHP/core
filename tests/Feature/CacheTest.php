@@ -14,8 +14,8 @@ describe('cache tests', function () {
         $providers = $file['providers'];
 
         expect($providers)->toContain(
-	        Tests\Providers\MessageServiceProvider::class,
-	        Tests\Providers\ReportServiceProvider::class,
+            Tests\Providers\MessageServiceProvider::class,
+            Tests\Providers\ReportServiceProvider::class,
         );
     });
 
