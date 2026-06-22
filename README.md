@@ -1,16 +1,18 @@
 # Framework Factory
 
-> Framework Factory is a PHP application starter package. The aim is to make building PHP 8 powered applications, or frameworks, 
-> a breeze by giving a construct for the beginning stages of application development. The core principles are inspired by
-> the Laravel bootstrap architecture: wherein a developer can hook into the service container before, during and after 
-> container and dependency resolutions have occurred. 
-> 
+> Framework Factory is a PHP application starter package. The aim is to make building PHP 8 powered applications, or
+> frameworks, a breeze by giving a construct for the beginning stages of application development. The core principles are inspired
+> by the Laravel bootstrap architecture: wherein a developer can hook into the service container before, during and after 
+> container and dependency resolutions have occurred.
+>
 > Using a simple yet intuitive bootstrap process and application entrypoint interface, developers have access to the
-> logic and tools needed to get their next project going with minimal overhead. Check out the features list below for a 
-> more comprehensive look into how Framework Factory is able to help achieve this. 
+> logic and tools needed to get their next project going with minimal overhead. Check out the features list below for a
+> more comprehensive look into how Framework Factory is able to help achieve this.
 
 ## Features
-- **Application entrypoint:** The application entrypoint is located at `FrameworkFactory\Application`. This class assists in
+
+- **Application entrypoint:** The application entrypoint is located at `FrameworkFactory\Application`. This class
+  assists in
   managing your application by providing an elegant boostrap and application configuration API.
 - **PSR-11 IoC Container:** The IoC container is the heart of Framework Factory. It is a robust container
   that includes many features for managing dependencies within your application, as well as giving you access to them.
@@ -23,13 +25,18 @@
         - **Facade support:** - Access dependencies loaded within the container using Facades (Accessors) for easy
           resource consumption.
         - **Lazy loading:** Load dependencies only when they are needed, instead of when a container is built.
+- **Built-in autoloading:** The built-in autoloader allows for class loading to be done within the application, and not
+  the `composer.json`' file.
 - **Fully tested codebase:** The codebase is fully tested using the [Pest PHP](https://pestphp.com/) testing framework.
   You can see all tests by going [here](https://github.com/FrameworkFactoryPHP/core/tree/main/tests).
 - **Zero Dependencies:** FrameworkFactory requires zero dependencies and relies strictly on its own internal libraries.
-- **Fully Documented:** All documentation is provided in the separate `docs` [ repository](https://github.com/FrameworkFactoryPHP/docs).
+- **Fully Documented:** All documentation is provided in the separate
+  `docs` [ repository](https://github.com/FrameworkFactoryPHP/docs).
 
 ___
+
 ## License
+
 BSD 3-Clause License
 
 Copyright (c) 2026, Framework-Factory
