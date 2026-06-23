@@ -58,6 +58,9 @@ namespace FrameworkFactory {
             // registers a new autoloader instance
             self::registerAutoloader($appNamespace, self::$basePath . $appDirectory);
 
+	        // auto-discover service providers
+	        self::autoDiscoverProviders();
+
             // configure the facade / accessor system
             App\Accessor::setContainer(self::$container);
 
@@ -73,9 +76,6 @@ namespace FrameworkFactory {
             // run the bootstrap build process
             App\Bootstrap::build(self::$container, self::$providers, self::$cachePath);
 
-            // auto-discover service providers
-            $this->autoDiscoverProviders();
-
             // bootstrap the service providers and run their boot methods
             self::$container->bootstrap(self::$providers);
             self::$container->bootProviders();
@@ -86,7 +86,7 @@ namespace FrameworkFactory {
          *
          * @return void
          */
-        private function autoDiscoverProviders(): void
+        private static function autoDiscoverProviders(): void
         {
             $providers = self::autoloader()->getClasses(self::$appNamespace . '\\Providers');
             $filtered = array_values(array_filter($providers, static function (string $item) {
