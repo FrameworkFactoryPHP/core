@@ -2,11 +2,8 @@
 
 namespace FrameworkFactory {
 
-	use FrameworkFactory\Contracts\Application\ApplicationInstance;
-	use FrameworkFactory\Contracts\Application\AutoloaderInstance;
-	use FrameworkFactory\Contracts\Container\ContainerInstance;
-	use FrameworkFactory\Application\Traits\HasOptions;
 	use FrameworkFactory\Application as App;
+	use FrameworkFactory\Application\Traits;
 
 	/**
      * This is the application entry point used to build and
@@ -24,7 +21,7 @@ namespace FrameworkFactory {
      */
     final class Application implements Contracts\Application\ApplicationInstance
     {
-        use HasOptions;
+        use Traits\HasOptions;
 
         /** @var Contracts\Container\ContainerInstance $container service container */
         private static Contracts\Container\ContainerInstance $container;
@@ -38,8 +35,8 @@ namespace FrameworkFactory {
         /** @var string $cachePath the path for the cached bootstrap file */
         private static string $cachePath;
 
-        /** @var AutoloaderInstance $autoloader autoloader instance */
-        private static AutoloaderInstance $autoloader;
+        /** @var Contracts\Application\AutoloaderInstance $autoloader autoloader instance */
+        private static Contracts\Application\AutoloaderInstance $autoloader;
 
         /** @var string $appNamespace application namespace */
         private static string $appNamespace;
@@ -47,7 +44,7 @@ namespace FrameworkFactory {
         /**
          * @inheritdoc
          */
-        public static function build(string $basePath, string $appNamespace = 'App', string $appDirectory = 'app'): ApplicationInstance
+        public static function build(string $basePath, string $appNamespace = 'App', string $appDirectory = 'app'): Contracts\Application\ApplicationInstance
         {
             // assign the base and cache paths
             self::$basePath = rtrim($basePath, '/') . DIRECTORY_SEPARATOR;
@@ -85,11 +82,11 @@ namespace FrameworkFactory {
         /**
          * Auto-discover providers and add them to the providers array
          *
-         * @param AutoloaderInstance $autoloader autoloader instance
+         * @param Contracts\Application\AutoloaderInstance $autoloader autoloader instance
          *
          * @return void
          */
-        private static function autoDiscoverProviders(AutoloaderInstance $autoloader): void
+        private static function autoDiscoverProviders(Contracts\Application\AutoloaderInstance $autoloader): void
         {
             // add each autoloaded provider to the $providers array
             foreach ($autoloader->getClasses(self::$appNamespace . '\Providers') as $class) {
@@ -155,7 +152,7 @@ namespace FrameworkFactory {
         /**
          * @inheritdoc
          */
-        public static function container(): ContainerInstance
+        public static function container(): Contracts\Container\ContainerInstance
         {
             return self::$container;
         }
@@ -163,7 +160,7 @@ namespace FrameworkFactory {
         /**
          * @inheritdoc
          */
-        public static function autoloader(): AutoloaderInstance
+        public static function autoloader(): Contracts\Application\AutoloaderInstance
         {
             return self::$autoloader;
         }
