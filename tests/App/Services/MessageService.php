@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services {
+namespace Tests\App\Services {
 
     class MessageService
     {

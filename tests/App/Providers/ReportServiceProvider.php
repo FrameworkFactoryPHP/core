@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Modules\Providers {
+namespace Tests\App\Providers {
 
     use FrameworkFactory\Contracts\Container\ContainerInstance;
     use FrameworkFactory\Contracts\Providers\ServiceProvider;
-    use App\Contracts\LoggerInterface;
-    use App\Services\ReportService;
-    use App\Services\CacheWarmer;
-    use App\Loggers\FileLogger;
-    use App\Loggers\NullLogger;
+    use Tests\App\Contracts\LoggerInterface;
+    use Tests\App\Services\ReportService;
+    use Tests\App\Services\CacheWarmer;
+    use Tests\App\Loggers\FileLogger;
+    use Tests\App\Loggers\NullLogger;
 
     class ReportServiceProvider extends ServiceProvider
     {

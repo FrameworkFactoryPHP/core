@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Loggers {
+namespace Tests\App\Loggers {
 
-    use App\Contracts\LoggerInterface;
+    use Tests\App\Contracts\LoggerInterface;
 
     class FileLogger implements LoggerInterface
     {

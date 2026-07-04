@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Accessors {
+namespace Tests\App\Accessors {
 
     use FrameworkFactory\Application\Accessor;
 

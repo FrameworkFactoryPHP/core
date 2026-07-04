@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts {
+namespace Tests\App\Contracts {
 
     interface LoggerInterface
     {
