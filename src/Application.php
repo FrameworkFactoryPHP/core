@@ -2,13 +2,13 @@
 
 namespace FrameworkFactory {
 
-    use FrameworkFactory\Application as App;
-    use FrameworkFactory\Application\Traits\HasOptions;
-    use FrameworkFactory\Contracts\Application\ApplicationInstance;
-    use FrameworkFactory\Contracts\Application\AutoloaderInstance;
-    use FrameworkFactory\Contracts\Container\ContainerInstance;
+	use FrameworkFactory\Contracts\Application\ApplicationInstance;
+	use FrameworkFactory\Contracts\Application\AutoloaderInstance;
+	use FrameworkFactory\Contracts\Container\ContainerInstance;
+	use FrameworkFactory\Application\Traits\HasOptions;
+	use FrameworkFactory\Application as App;
 
-    /**
+	/**
      * This is the application entry point used to build and
      * bootstrap an application. It sets up the container and
      * configures the core libraries.
