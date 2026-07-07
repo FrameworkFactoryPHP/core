@@ -11,17 +11,6 @@ namespace FrameworkFactory\Contracts\Application {
     interface ApplicationInstance
     {
         /**
-         * The initial bootstrap process which builds
-         * the container, generates a built-in
-         * autoloader and returns the app instance
-         *
-         * @param string $basePath Path the base directory
-         *
-         * @return self
-         */
-        public static function build(string $basePath): ApplicationInstance;
-
-        /**
          * Registers multiple service providers
          *
          * @param array $providers
@@ -39,20 +28,5 @@ namespace FrameworkFactory\Contracts\Application {
          * @return void
          */
         public function fire(): void;
-
-        /**
-         * A collection of service providers
-         *
-         * @return array<string>
-         */
-        public static function providers(): array;
-
-        /**
-         * Returns a service that has been loaded into
-         * the container
-         *
-         * @return mixed
-         */
-        public static function get(string $id): mixed;
     }
 }
