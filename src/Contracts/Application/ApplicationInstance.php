@@ -54,12 +54,5 @@ namespace FrameworkFactory\Contracts\Application {
          * @return mixed
          */
         public static function get(string $id): mixed;
-
-        /**
-         * Returns the container instance
-         *
-         * @return Contracts\Container\ContainerInstance
-         */
-        public static function container(): Contracts\Container\ContainerInstance;
     }
 }
