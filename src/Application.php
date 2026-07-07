@@ -110,14 +110,6 @@ namespace FrameworkFactory {
         }
 
         /**
-         * @inheritdoc
-         */
-        public static function container(): Contracts\Container\ContainerInstance
-        {
-            return self::$container;
-        }
-
-        /**
          * Registers a new autoloader instance
          *
          * @param string $namespace

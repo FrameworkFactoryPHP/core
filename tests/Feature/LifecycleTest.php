@@ -4,8 +4,8 @@ use FrameworkFactory\Application;
 
 describe('lifecycle hook tests', function () {
 
-    it('the container instance is executing lifecycle hooks, and executing them in the correct order', function () {
-        $container = Application::container();
+    it('a container instance can execute lifecycle hooks, and executes them in the correct order', function () {
+        $container = new Application\Container(\Tests\TestState::$cachePath);
 
         $events = [];
 
