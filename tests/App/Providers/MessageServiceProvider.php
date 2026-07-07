@@ -2,17 +2,10 @@
 
 namespace Tests\App\Providers {
 
+	use FrameworkFactory\Attributes\Services\CreatesBinding;
     use Tests\App\Services\MessageService;
     use FrameworkFactory\Contracts;
 
-    class MessageServiceProvider extends Contracts\Providers\ServiceProvider
-    {
-        /**
-         * @inheritdoc
-         */
-        public function register(): void
-        {
-            $this->bind('message', fn () => new MessageService());
-        }
-    }
+	#[CreatesBinding('message', MessageService::class)]
+    class MessageServiceProvider extends Contracts\Providers\ServiceProvider {}
 }
