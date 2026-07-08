@@ -181,6 +181,7 @@ namespace FrameworkFactory\Application {
 
 	        // run a check to verify whether the service provider calls CreatesBinding
 	        if (Getters\Attribute::has($provider, CreatesBinding::class)) {
+		        // if it does, bind a new service to the container using its properties
 		        $attribute = Getters\Attribute::get($provider, CreatesBinding::class);
 		        $this->bind($attribute->id, fn () => new $attribute->concrete());
 	        }
