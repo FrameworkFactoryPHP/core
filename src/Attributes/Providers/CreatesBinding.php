@@ -5,7 +5,7 @@ namespace FrameworkFactory\Attributes\Providers {
     use Attribute;
 
     #[Attribute(Attribute::TARGET_CLASS)]
-    class CreatesBinding
+    readonly class CreatesBinding
     {
         /**
          * @param string $id       the id for the container binding

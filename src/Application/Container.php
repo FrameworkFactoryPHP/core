@@ -2,7 +2,8 @@
 
 namespace FrameworkFactory\Application {
 
-    use FrameworkFactory\Exceptions\Container\ContainerException;
+	use FrameworkFactory\Application\Container\Binding;
+	use FrameworkFactory\Exceptions\Container\ContainerException;
     use FrameworkFactory\Contracts\Container\ContainerInstance;
     use FrameworkFactory\Exceptions\Container\ServiceNotFound;
     use FrameworkFactory\Contracts\Providers\ServiceProvider;
@@ -67,7 +68,7 @@ namespace FrameworkFactory\Application {
          */
         public function bind(string $id, callable $factory): void
         {
-            $this->bindings[$id] = $factory;
+	        $this->bindings[$id] = $this->bindingInstance($factory);
         }
 
         /**
@@ -75,9 +76,7 @@ namespace FrameworkFactory\Application {
          */
         public function singleton(string $id, callable $factory): void
         {
-            $this->bindings[$id] = function (ContainerInstance $c) use ($id, $factory) {
-                return $this->instances[$id] ??= $factory($c);
-            };
+	        $this->bindings[$id] = $this->bindingInstance($factory, true);
         }
 
         /**
@@ -125,37 +124,45 @@ namespace FrameworkFactory\Application {
          */
         public function get(string $id): mixed
         {
-            $id = $this->aliases[$id] ?? $id;
+	        $id = $this->aliases[$id] ?? $id;
 
-            if (isset($this->instances[$id])) {
-                return $this->instances[$id];
-            }
+	        if (isset($this->singletons[$id])) {
+		        return $this->singletons[$id];
+	        }
 
-            $this->buildStack[] = $id;
+	        $this->buildStack[] = $id;
 
-            try {
-                foreach ($this->beforeResolving[$id] ?? [] as $cb) {
-                    $cb($this, $id);
-                }
+	        try {
+		        foreach ($this->beforeResolving[$id] ?? [] as $callback) {
+			        $callback($this, $id);
+		        }
 
-                if (! isset($this->bindings[$id])) {
-                    $this->loadDeferredProvider($id);
-                }
+		        if (! isset($this->bindings[$id])) {
+			        $this->loadDeferredProvider($id);
+		        }
 
-                if (! isset($this->bindings[$id])) {
-                    throw new ServiceNotFound("The [$id] service has not been bound to the container.");
-                }
+		        if (! isset($this->bindings[$id])) {
+			        throw new ServiceNotFound(
+				        sprintf('The [%s] service has not been bound to the container.', $id)
+			        );
+		        }
 
-                $object = $this->resolveWithContext($id);
+		        $binding = $this->bindings[$id];
 
-                foreach ($this->afterResolving[$id] ?? [] as $cb) {
-                    $cb($this, $object);
-                }
+		        $object = $this->resolveWithContext($id);
 
-                return $this->singletons[$id] = $object;
-            } finally {
-                array_pop($this->buildStack);
-            }
+		        if ($binding['shared']) {
+			        $this->singletons[$id] = $object;
+		        }
+
+		        foreach ($this->afterResolving[$id] ?? [] as $callback) {
+			        $callback($this, $object);
+		        }
+
+		        return $object;
+	        } finally {
+		        array_pop($this->buildStack);
+	        }
         }
 
         /**
@@ -265,20 +272,33 @@ namespace FrameworkFactory\Application {
          */
         private function resolveWithContext(string $id): mixed
         {
-            // If resolving as a dependency of something else
-            if (count($this->buildStack) > 1) {
-                $parent = $this->buildStack[count($this->buildStack) - 2];
+	        if (count($this->buildStack) > 1) {
+		        $parent = $this->buildStack[count($this->buildStack) - 2];
 
-                if (isset($this->contextual[$parent][$id])) {
-                    $concrete = $this->contextual[$parent][$id];
+		        if (isset($this->contextual[$parent][$id])) {
+			        $concrete = $this->contextual[$parent][$id];
 
-                    return is_callable($concrete) ? $concrete($this) : new $concrete();
-                }
-            }
+			        return is_callable($concrete)
+				        ? $concrete($this)
+				        : new $concrete();
+		        }
+	        }
 
-            // Default binding
-            return ($this->bindings[$id])($this);
+	        return ($this->bindings[$id]['factory'])($this);
         }
+
+	    /**
+	     * Returns a binding instance as an array
+	     *
+	     * @param callable $factory
+	     * @param bool     $shared
+	     *
+	     * @return array
+	     */
+	    private function bindingInstance(callable $factory, bool $shared = false): array
+	    {
+		    return (array) new Binding($factory, $shared);
+	    }
 
         /**
          * Does the cache file exist?
