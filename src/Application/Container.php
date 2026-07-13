@@ -2,13 +2,13 @@
 
 namespace FrameworkFactory\Application {
 
-	use FrameworkFactory\Application\Container\Binding;
-	use FrameworkFactory\Exceptions\Container\ContainerException;
+    use FrameworkFactory\Exceptions\Container\ContainerException;
     use FrameworkFactory\Contracts\Container\ContainerInstance;
     use FrameworkFactory\Exceptions\Container\ServiceNotFound;
     use FrameworkFactory\Contracts\Providers\ServiceProvider;
     use FrameworkFactory\Attributes\Providers\CreatesBinding;
     use FrameworkFactory\Contracts\Container\ContextBuilder;
+    use FrameworkFactory\Application\Container\Binding;
     use FrameworkFactory\Application\Context\Builder;
 
     /**
@@ -68,7 +68,7 @@ namespace FrameworkFactory\Application {
          */
         public function bind(string $id, callable $factory): void
         {
-	        $this->bindings[$id] = $this->bindingInstance($factory);
+            $this->bindings[$id] = $this->bindingInstance($factory);
         }
 
         /**
@@ -76,7 +76,7 @@ namespace FrameworkFactory\Application {
          */
         public function singleton(string $id, callable $factory): void
         {
-	        $this->bindings[$id] = $this->bindingInstance($factory, true);
+            $this->bindings[$id] = $this->bindingInstance($factory, true);
         }
 
         /**
@@ -124,45 +124,45 @@ namespace FrameworkFactory\Application {
          */
         public function get(string $id): mixed
         {
-	        $id = $this->aliases[$id] ?? $id;
+            $id = $this->aliases[$id] ?? $id;
 
-	        if (isset($this->singletons[$id])) {
-		        return $this->singletons[$id];
-	        }
+            if (isset($this->singletons[$id])) {
+                return $this->singletons[$id];
+            }
 
-	        $this->buildStack[] = $id;
+            $this->buildStack[] = $id;
 
-	        try {
-		        foreach ($this->beforeResolving[$id] ?? [] as $callback) {
-			        $callback($this, $id);
-		        }
+            try {
+                foreach ($this->beforeResolving[$id] ?? [] as $callback) {
+                    $callback($this, $id);
+                }
 
-		        if (! isset($this->bindings[$id])) {
-			        $this->loadDeferredProvider($id);
-		        }
+                if (! isset($this->bindings[$id])) {
+                    $this->loadDeferredProvider($id);
+                }
 
-		        if (! isset($this->bindings[$id])) {
-			        throw new ServiceNotFound(
-				        sprintf('The [%s] service has not been bound to the container.', $id)
-			        );
-		        }
+                if (! isset($this->bindings[$id])) {
+                    throw new ServiceNotFound(
+                        sprintf('The [%s] service has not been bound to the container.', $id)
+                    );
+                }
 
-		        $binding = $this->bindings[$id];
+                $binding = $this->bindings[$id];
 
-		        $object = $this->resolveWithContext($id);
+                $object = $this->resolveWithContext($id);
 
-		        if ($binding['shared']) {
-			        $this->singletons[$id] = $object;
-		        }
+                if ($binding['shared']) {
+                    $this->singletons[$id] = $object;
+                }
 
-		        foreach ($this->afterResolving[$id] ?? [] as $callback) {
-			        $callback($this, $object);
-		        }
+                foreach ($this->afterResolving[$id] ?? [] as $callback) {
+                    $callback($this, $object);
+                }
 
-		        return $object;
-	        } finally {
-		        array_pop($this->buildStack);
-	        }
+                return $object;
+            } finally {
+                array_pop($this->buildStack);
+            }
         }
 
         /**
@@ -194,7 +194,7 @@ namespace FrameworkFactory\Application {
 
             // if a service provider uses the CreatesBinding attribute
             if (Getters\Attribute::has($provider, CreatesBinding::class)) {
-	            // bind a new service to the container using its attached metadata
+                // bind a new service to the container using its attached metadata
                 $attribute = Getters\Attribute::get($provider, CreatesBinding::class);
                 $this->bind($attribute->id, fn () => new $attribute->concrete());
             }
@@ -272,33 +272,33 @@ namespace FrameworkFactory\Application {
          */
         private function resolveWithContext(string $id): mixed
         {
-	        if (count($this->buildStack) > 1) {
-		        $parent = $this->buildStack[count($this->buildStack) - 2];
+            if (count($this->buildStack) > 1) {
+                $parent = $this->buildStack[count($this->buildStack) - 2];
 
-		        if (isset($this->contextual[$parent][$id])) {
-			        $concrete = $this->contextual[$parent][$id];
+                if (isset($this->contextual[$parent][$id])) {
+                    $concrete = $this->contextual[$parent][$id];
 
-			        return is_callable($concrete)
-				        ? $concrete($this)
-				        : new $concrete();
-		        }
-	        }
+                    return is_callable($concrete)
+                        ? $concrete($this)
+                        : new $concrete();
+                }
+            }
 
-	        return ($this->bindings[$id]['factory'])($this);
+            return ($this->bindings[$id]['factory'])($this);
         }
 
-	    /**
-	     * Returns a binding instance as an array
-	     *
-	     * @param callable $factory
-	     * @param bool     $shared
-	     *
-	     * @return array
-	     */
-	    private function bindingInstance(callable $factory, bool $shared = false): array
-	    {
-		    return (array) new Binding($factory, $shared);
-	    }
+        /**
+         * Returns a binding instance as an array
+         *
+         * @param callable $factory
+         * @param bool     $shared
+         *
+         * @return array
+         */
+        private function bindingInstance(callable $factory, bool $shared = false): array
+        {
+            return (array) new Binding($factory, $shared);
+        }
 
         /**
          * Does the cache file exist?
