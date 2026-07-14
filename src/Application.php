@@ -3,7 +3,6 @@
 namespace FrameworkFactory {
 
     use FrameworkFactory\Application as App;
-    use FrameworkFactory\Application\Traits;
 
     /**
      * This is the application entry point used to build and
@@ -21,8 +20,6 @@ namespace FrameworkFactory {
      */
     final class Application implements Contracts\Application\ApplicationInstance
     {
-        use Traits\HasOptions;
-
         /** @var Contracts\Container\ContainerInstance $container service container */
         private static Contracts\Container\ContainerInstance $container;
 
@@ -34,6 +31,9 @@ namespace FrameworkFactory {
 
         /** @var string $cachePath the path for the cached bootstrap file */
         private static string $cachePath;
+
+	    /** @var array|string[] $options configurable options */
+	    private static array $options = [];
 
         /** @var Contracts\Application\AutoloaderInstance $autoloader autoloader instance */
         private static Contracts\Application\AutoloaderInstance $autoloader;
@@ -121,6 +121,44 @@ namespace FrameworkFactory {
             return self::$container->get($id);
         }
 
+	    /**
+	     * Return the config option from the options array,
+	     * or null otherwise
+	     *
+	     * @param string $name
+	     * @param array  $arguments
+	     *
+	     * @return string
+	     */
+	    public static function __callStatic(string $name, array $arguments)
+	    {
+		    return self::$options[self::camelize($name)] ?? null;
+	    }
+
+	    /**
+	     * Set the value of an option and return an instance
+	     * of the application for method chaining
+	     *
+	     * @param string $method
+	     * @param array  $arguments
+	     *
+	     * @return $this
+	     */
+	    public function __call(string $method, array $arguments)
+	    {
+		    if (str_starts_with($method, 'set')) {
+			    $option = self::camelize(substr($method, 3));
+
+			    self::$options[$option] = $arguments[0] ?? null;
+
+			    return $this;
+		    }
+
+		    throw new \BadMethodCallException(
+			    sprintf('%s::%s() does not exist.', self::class, $method)
+		    );
+	    }
+
         /**
          * Registers a new autoloader instance
          *
@@ -191,5 +229,19 @@ namespace FrameworkFactory {
         {
             return str_ends_with($class, 'Provider') || str_ends_with($class, 'ServiceProvider');
         }
+
+	    /**
+	     * Returns a camel-case string
+	     *
+	     * @param string $string
+	     *
+	     * @return string
+	     */
+	    private static function camelize(string $string): string
+	    {
+		    return strtolower(
+			    preg_replace('/(?<!^)[A-Z]/', '_$0', $string)
+		    );
+	    }
     }
 }
